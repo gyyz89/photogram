@@ -2,7 +2,7 @@
       <div class="post">
         <div class="post-head">
           <div class="name">
-            Ben Walker
+            <%= @post.user.user_name %>
           </div>
           <div class="image center-block">
       <%= image_tag @post.image.url(:medium) %>
@@ -10,11 +10,20 @@
       <p class="caption">
         <%= @post.caption %>
       </p>
-      <div class="text-center edit-links">
+      <% if @post.user.id == current_user.id %>
+        <div class="text-center edit-links">
+          <%= link_to "Cancel", posts_path %>
+          |
+          <%= link_to "Edit Post", edit_post_path(@post) %>
+          |
+          <%= link_to "Delete Post", post_path(@post), method: :delete, data: {
+          confirm: "Are you sure you want to delete this post?" } %>
+        </div>
+      <% else %>
+       <div class="text-center edit-links">
         <%= link_to "Cancel", posts_path %>
-        |
-        <%= link_to "Edit Post", edit_post_path(@post) %>
-      </div>
+       </div>
+      <% end %>
       </div>
     </div>
 </div>
